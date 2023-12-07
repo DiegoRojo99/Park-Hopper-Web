@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#main-container{
+  display: flex;
+  width: 100%;
+  background: linear-gradient(#051f30,#000000);
+}
