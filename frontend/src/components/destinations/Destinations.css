@@ -1,0 +1,85 @@
+.destination-page{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+}
+.destination-cards{
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.full-card {
+  width: 80%;
+  padding: 8px;
+  margin: 0 10%;
+  border: 1px solid #000;
+  background-color: grey;
+  border-radius: 16px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.card {
+  width: 100%;
+  max-width: 300px; /* Adjust the maximum width as needed */
+  margin: 10px;
+  padding: 15px;
+  border: 1px solid #000;
+  background-color: grey;
+  border-radius: 16px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.park-card {
+  width: 100%;
+  max-width: 480px; /* Adjust the maximum width as needed */
+  margin: 10px;
+  padding: 15px;
+  border: 1px solid #000;
+  background-color: grey;
+  border-radius: 16px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.card:hover {
+  background-color: rgb(255,255,255,0.8);
+}
+
+.waiting-times{
+  margin: 16px 32px;
+  background-color: white;
+  color: black;
+}
+.header-row{
+  font-weight: bold;
+  border-bottom: 1px solid black !important;
+}
+
+.attraction-row{
+  display: grid;
+  grid-template-columns: 4fr 1fr 1fr;
+  padding: 8px 0;
+  border-bottom: 1px solid rgb(128,128,128,0.5);
+}
+
+/* Media queries for responsiveness */
+@media (min-width: 768px) {
+  .card {
+    width: calc(50% - 20px); /* Two columns with some margin */
+  }
+}
+
+@media (min-width: 1024px) {
+  .card {
+    width: calc(33.33% - 20px); /* Three columns with some margin */
+  }
+}
+
+@media (min-width: 1200px) {
+  .card {
+    width: calc(25% - 20px); /* Four columns with some margin */
+  }
+}
