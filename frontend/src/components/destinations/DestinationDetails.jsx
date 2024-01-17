@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Card from '../common/Card';
 
 function DestinationDetails(){
   const navigate = useNavigate();
@@ -7,21 +8,9 @@ function DestinationDetails(){
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);  
   const [data, setData] = useState(null);
-  const [children, setChildren] = useState(null);
-  const [chosenChild, setChosenChild] = useState(null);
-  const columns = ["parks", "attractions", "restaurants", "hotels", "shows"];
+  const [children, setChildren] = useState([]);
 
   useEffect(() => {
-
-    function divideChildren(children){
-      let parks = children.filter((child) => child.entityType === "PARK");
-      let attractions = children.filter((child) => child.entityType === "ATTRACTION");
-      let restaurants = children.filter((child) => child.entityType === "RESTAURANT");
-      let hotels = children.filter((child) => child.entityType === "HOTEL");
-      let shows = children.filter((child) => child.entityType === "SHOW");
-
-      setChildren({ parks, attractions, restaurants, hotels, shows});
-    }
 
     const fetchData = async () => {
       try {
@@ -32,7 +21,7 @@ function DestinationDetails(){
         }
 
         const result = await response.json();
-        divideChildren(result.children);
+        setChildren(result.children.filter((child) => child.entityType === "PARK"));
         setData(result);
         setLoading(false);
       } catch (error) {
@@ -52,32 +41,26 @@ function DestinationDetails(){
     return <p>Error: {error.message}</p>;
   }
 
-  function openChildrenPage(id) {
-    const url = `/${chosenChild}/${id}`;
+  function openLink(id) {
+    const url = `/parks/${id}`;
     navigate(url); 
   }
 
   function renderChildrenObjects(){
-    if(chosenChild!==null && children[chosenChild] && children[chosenChild].length > 0){
-      return(
-        <>
-          <h4>{chosenChild.toLocaleUpperCase()}</h4>            
-          <div className='destination-page'>
-            {children[chosenChild].map((child) => { 
-            return (
-              <div className='card' onClick={() => openChildrenPage(child.id)}>
-                {child.name}
-              </div>
-            )})}
-          </div>
-        </>
-      );
-    }
-    else{
-      return <></>;
-    }
+    return(
+      <>           
+        <div className='destination-page'>
+          {children.map((child) => { 
+            return <Card child={child} openLink={openLink} /> 
+          })}
+        </div>
+      </>
+    );
   }
 
+  if(loading){
+    return <></>;
+  }
   return (
     <div>
       <div style={{width: '100%', display: 'flex'}}>
@@ -85,35 +68,7 @@ function DestinationDetails(){
         {/* <span style={{margin: '32px 0', cursor: 'pointer'}} className="material-symbols-outlined">calendar_month</span> */}
       </div>
                
-      <div className='destination-cards'>
-      {columns.map((col) => {
-        return (
-          <p className='full-card' onClick={() => setChosenChild(col)}>
-            {col.toLocaleUpperCase()}
-          </p>
-        )
-      })}
-      </div>
       {renderChildrenObjects()}
-
-      {/* {columns.map((col) => {
-        if(children[col] && children[col].length > 0){
-          return(
-            <>
-              <h4>{col.toLocaleUpperCase()}</h4>            
-              <div className='destination-page'>
-                {children[col].map((child) => (
-                  <div className='card'>
-                    {child.name}
-                  </div>
-                ))}
-              </div>
-            </>
-          );
-        }else{
-          return <></>;
-        }
-      })} */}
     </div>
   );
 };

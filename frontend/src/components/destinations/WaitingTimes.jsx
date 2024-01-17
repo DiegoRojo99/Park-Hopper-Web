@@ -49,10 +49,10 @@ export function WaitingTimes({ type }){
     return <p>Error: {error.message}</p>;
   }
   
-  function openChildrenPage(id) {
-    const url = `/attractions/${id}`;
-    navigate(url); 
-  }
+  // function openLink(id) {
+  //   const url = `/attractions/${id}`;
+  //   navigate(url); 
+  // }
 
 
   return (

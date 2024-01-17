@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Destinations.css';
 import SearchBar from '../common/SearchBar';
+import Card from '../common/Card';
 
 function Destinations(){
+  const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [filteredData, setFilteredData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -42,6 +45,11 @@ function Destinations(){
     const filteredNames = data.filter((dest) => dest.name.toLowerCase().includes(text))
     setFilteredData(filteredNames);
   }
+  
+  function openLink(id) {
+    const url = `/destinations/${id}`;
+    navigate(url); 
+  }
 
   return (
     <div>
@@ -49,11 +57,7 @@ function Destinations(){
       <SearchBar onSearch={searchName} />
       <div className='destination-page'>
       {filteredData.map((dest) => (
-        <div className='card'>
-          <a href={'/destinations/'+dest.id}>
-            {dest.name}
-          </a>
-        </div>
+        <Card child={dest} openLink={openLink} /> 
       ))}
       </div>
     </div>

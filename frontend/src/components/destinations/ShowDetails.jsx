@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Card from '../common/Card';
 
 export function ParkDetails(){
   const { id } = useParams();
@@ -51,7 +52,7 @@ export function ParkDetails(){
     return <p>Error: {error.message}</p>;
   }
   
-  function openChildrenPage(id) {
+  function openLink(id) {
     const url = `/${chosenChild}/${id}`;
     navigate(url); 
   }
@@ -64,9 +65,7 @@ export function ParkDetails(){
           <div className='destination-page'>
             {children[chosenChild].map((child) => { 
             return (
-              <div className='card' onClick={() => openChildrenPage(child.id)}>
-                {child.name}
-              </div>
+              <Card child={child} openLink={openLink} />
             )})}
           </div>
         </>
@@ -102,9 +101,7 @@ export function ParkDetails(){
               <h4>{col.toLocaleUpperCase()}</h4>            
               <div className='destination-page'>
                 {children[col].map((child) => (
-                  <div className='card'>
-                    {child.name}
-                  </div>
+                  //Use card
                 ))}
               </div>
             </>

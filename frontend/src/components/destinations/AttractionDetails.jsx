@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 export function AttractionDetails(){
   const { id } = useParams();
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);  
   const [data, setData] = useState(null);
@@ -64,9 +63,7 @@ export function AttractionDetails(){
               <h4>{col.toLocaleUpperCase()}</h4>            
               <div className='destination-page'>
                 {children[col].map((child) => (
-                  <div className='card'>
-                    {child.name}
-                  </div>
+                  return <Card child={child} />
                 ))}
               </div>
             </>
