@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Card from '../common/Card';
+import WideCard from '../common/WideCard';
 
 export function ParkDetails(){
   const { id } = useParams();
@@ -10,8 +11,6 @@ export function ParkDetails(){
   const [data, setData] = useState(null);
   const [children, setChildren] = useState(null);
   const [schedule, setSchedule] = useState(null);
-  const [chosenChild, setChosenChild] = useState(null);
-  const columns = ["attractions", "restaurants", "shows"];
 
   useEffect(() => {
 
@@ -56,39 +55,37 @@ export function ParkDetails(){
     fetchData();
   }, [id]);
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
   if (error) {
     return <p>Error: {error.message}</p>;
   }
   
   function openLink(id) {
-    const url = `/${chosenChild}/${id}`;
+    const url = `/attractions/${id}`;
     navigate(url); 
   }
 
   function renderChildrenObjects(){
-    if(chosenChild!==null && children[chosenChild] && children[chosenChild].length > 0){
+    if(!loading){
       return(
         <>
-          <h4>{chosenChild.toLocaleUpperCase()}</h4>            
           <div className='destination-page'>
-            {children[chosenChild].map((child) => { 
+            {children.attractions.map((child) => { 
             return (
-              <Card child={child} openLink={openLink} />
+              <WideCard child={child} openLink={openLink} />
             )})}
           </div>
         </>
       );
     }
     else{
-      console.log("SC: ",schedule)
       return <></>;
     }
   }
 
+  
+  if(loading){
+    return <>Loading</>
+  }
   return (
     <div>
       <div style={{width: '100%', display: 'flex'}}>
@@ -96,33 +93,8 @@ export function ParkDetails(){
         {/* <span style={{margin: '32px 0', cursor: 'pointer'}} className="material-symbols-outlined">calendar_month</span> */}
       </div>
                
-      <div className='destination-cards'>
-      {columns.map((col) => {
-        return (
-          <p className='full-card' onClick={() => setChosenChild(col)}>
-            {col.toLocaleUpperCase()}
-          </p>
-        )
-      })}
-      </div>
       {renderChildrenObjects()}
 
-      {/* {columns.map((col) => {
-        if(children[col] && children[col].length > 0){
-          return(
-            <>
-              <h4>{col.toLocaleUpperCase()}</h4>            
-              <div className='destination-page'>
-                {children[col].map((child) => (
-                  //Use Card
-                ))}
-              </div>
-            </>
-          );
-        }else{
-          return <></>;
-        }
-      })} */}
     </div>
   );
 };
