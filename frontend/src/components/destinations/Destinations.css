@@ -38,6 +38,34 @@
   transition: all .2s;
 }
 
+.card-img{
+  height: 70%;
+  width: 94%;
+  border: 1px solid white;
+  border-radius: 8px;
+  margin: 2.5%;
+}
+
+.card-stars{
+  width: 30%;
+  display: flex;
+  align-items: right;
+  justify-content: space-between;
+  margin-right: 4px;
+}
+
+.card-row{
+  width: 100%;
+  display: flex;
+  font-size: 12px;
+}
+
+.card-name{
+  width: 70%;
+  margin-left: 8px;
+  text-align: left;
+}
+
 .card2:hover {
   transform: scale(0.98);
   border-radius: 20px;

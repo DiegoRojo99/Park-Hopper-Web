@@ -6,8 +6,7 @@ function WideCard({ child, openLink }){
     <div className='wide-card'>
       <div className='wide-card2' onClick={() => openLink(child.id)}>
           <img className='wide-card-img' src={logoImage} />
-          <div className='overlay'>
-            
+          <div className='overlay'>            
             <p>{child.name}</p>
           </div>
       </div>
