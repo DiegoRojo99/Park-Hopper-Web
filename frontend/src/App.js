@@ -13,7 +13,7 @@ function App() {
     <BrowserRouter>
       <div id='main-container' className="App">
         <Nav />
-        <div style={{width: '100%'}}>
+        <div style={{width: '100%', height: '100%'}}>
           <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/destinations" element={<Destinations />} />
