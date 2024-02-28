@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './Destinations.css';
 import SearchBar from '../common/SearchBar';
 import Card from '../common/Card';
+import TextField from '@mui/material/TextField';
 
 function Destinations(){
   const navigate = useNavigate();
@@ -10,16 +11,15 @@ function Destinations(){
   const [filteredData, setFilteredData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [name, setName] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch('https://api.themeparks.wiki/v1/destinations');
-        
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-
         const result = await response.json();
         setData(result.destinations);
         setFilteredData(result.destinations);
@@ -42,7 +42,8 @@ function Destinations(){
   }
 
   function searchName(text){
-    const filteredNames = data.filter((dest) => dest.name.toLowerCase().includes(text))
+    setName(text);
+    const filteredNames = data.filter((dest) => dest.name.toLowerCase().includes(text.toLowerCase()))
     setFilteredData(filteredNames);
   }
   
@@ -52,16 +53,36 @@ function Destinations(){
   }
 
   return (
-    <div>
+    <div style={{height: '100%'}}>
       <h1 style={{margin: '16px'}}>Destinations:</h1>
-      <SearchBar onSearch={searchName} />
+      <FilterBar name={name} searchName={searchName} />
+      
       <div className='destination-page'>
-      {filteredData.map((dest) => (
-        <Card child={dest} openLink={openLink} /> 
+      {filteredData.map((dest, index) => (
+        <Card key={"destination-"+index} child={dest} openLink={openLink} /> 
       ))}
       </div>
     </div>
   );
 };
+
+function FilterBar({name, searchName}){
+
+  return (
+    <div className='filter-bar'>
+      <TextField 
+        id="outlined-basic" 
+        label="Name" 
+        // variant="outlined" 
+        color='secondary'
+        value={name}
+        onChange={(event) => { searchName(event.target.value)}}
+        focused
+        sx={{ color: 'white' }}
+      />
+
+    </div>
+  )
+}
 
 export default Destinations;
