@@ -1,8 +1,15 @@
-.destination-page{
+.grid-element{
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   width: 80%;
+  margin-bottom: 16px;
+}
+.grid-all{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
   margin-bottom: 16px;
 }
 .page-header{
@@ -16,7 +23,7 @@
 }
 
 @media screen and (max-width: 720px) {
-  .destination-page{
+  .grid-element{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -172,6 +179,9 @@
   height: 72px;
   padding: 8px;
   display: flex;
+}
+.filter-bar div{
+  margin: 0 auto;
 }
 
 .toggle-switch {

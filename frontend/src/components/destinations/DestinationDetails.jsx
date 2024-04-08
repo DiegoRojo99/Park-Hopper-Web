@@ -68,7 +68,7 @@ function DestinationDetails() {
   function renderChildrenObjects() {
     return (
       <div>
-        <div className='destination-page'>
+        <div className='grid-element'>
           {children.map((child) => {
             return <Card child={child} openLink={openLink} />
           })}

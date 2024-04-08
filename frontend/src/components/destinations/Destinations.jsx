@@ -57,7 +57,7 @@ function Destinations(){
       <h1 style={{margin: '16px'}}>Destinations:</h1>
       <FilterBar name={name} searchName={searchName} />
       
-      <div className='destination-page'>
+      <div className='grid-all'>
       {filteredData.map((dest, index) => (
         <Card key={"destination-"+index} child={dest} openLink={openLink} /> 
       ))}
@@ -74,7 +74,7 @@ function FilterBar({name, searchName}){
         id="outlined-basic" 
         label="Name" 
         // variant="outlined" 
-        color='secondary'
+        // color=''
         value={name}
         onChange={(event) => { searchName(event.target.value)}}
         focused

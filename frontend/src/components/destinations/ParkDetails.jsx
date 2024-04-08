@@ -70,7 +70,7 @@ export function ParkDetails(){
   function renderChildrenObjects(){
     if(!loading && viewType==="Card"){
       return(
-        <div className='destination-page'>
+        <div className='grid-element'>
           {children.attractions.map((child) => { 
           return (
             <Card child={child} openLink={openLink} />
@@ -81,7 +81,7 @@ export function ParkDetails(){
     else if(!loading && viewType==="List"){
       return(
         <>
-          <div className='destination-page'>
+          <div className='grid-element'>
             {children.attractions.map((child) => { 
             return (
               <WideCard child={child} openLink={openLink} />

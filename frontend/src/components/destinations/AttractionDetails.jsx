@@ -55,23 +55,6 @@ export function AttractionDetails(){
         <span style={{margin: '32px 0', cursor: 'pointer', height: '48px'}} className="material-symbols-outlined">calendar_month</span>
       </div>
       {renderChildrenObjects()}
-
-      {/* {columns.map((col) => {
-        if(children[col] && children[col].length > 0){
-          return(
-            <>
-              <h4>{col.toLocaleUpperCase()}</h4>            
-              <div className='destination-page'>
-                {children[col].map((child) => (
-                  return <Card child={child} />
-                ))}
-              </div>
-            </>
-          );
-        }else{
-          return <></>;
-        }
-      })} */}
     </div>
   );
 };

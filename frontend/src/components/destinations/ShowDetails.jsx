@@ -62,7 +62,7 @@ export function ParkDetails(){
       return(
         <>
           <h4>{chosenChild.toLocaleUpperCase()}</h4>            
-          <div className='destination-page'>
+          <div className='grid-element'>
             {children[chosenChild].map((child) => { 
             return (
               <Card child={child} openLink={openLink} />
@@ -99,7 +99,7 @@ export function ParkDetails(){
           return(
             <>
               <h4>{col.toLocaleUpperCase()}</h4>            
-              <div className='destination-page'>
+              <div className='grid-element'>
                 {children[col].map((child) => (
                   //Use card
                 ))}
