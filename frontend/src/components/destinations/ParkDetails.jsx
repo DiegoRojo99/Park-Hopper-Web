@@ -26,7 +26,7 @@ export function ParkDetails(){
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://api.themeparks.wiki/v1/entity/${id}/children`);
+        const response = await fetch(`https://api.themeparks.wiki/v1/entity/${id}/live`);
         const scheduleRes = await fetch(`https://api.themeparks.wiki/v1/entity/${id}/schedule`);
         
         if (!response.ok || !scheduleRes.ok) {
@@ -35,7 +35,7 @@ export function ParkDetails(){
 
         const result = await response.json();
         const scheduleObj = await scheduleRes.json();
-        divideChildren(result.children);
+        divideChildren(result.liveData);
         setData(result);
         const groupedByDate = scheduleObj.schedule.reduce((acc, obj) => {
           const date = new Date(obj.date).toLocaleDateString(); // Extracting only the date part
@@ -48,6 +48,7 @@ export function ParkDetails(){
         setSchedule(groupedByDate);
         setLoading(false);
       } catch (error) {
+        console.log("Error: ", error)
         setError(error);
         setLoading(false);
       }
@@ -111,7 +112,7 @@ export function ParkDetails(){
 };
 
 function ToggleSwitch({setViewType}) {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(true);
 
   function handleToggle(){
     setViewType(!isChecked ? "Card" : "List")

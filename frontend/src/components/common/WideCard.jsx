@@ -14,4 +14,4 @@ function WideCard({ child, openLink }){
   );
 };
   
-  export default WideCard;
+export default WideCard;
