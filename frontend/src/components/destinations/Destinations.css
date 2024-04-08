@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  width: 100%;
+  width: 80%;
 }
 .destination-cards{
   display: grid;
@@ -111,6 +111,51 @@
   height: 72px;
   padding: 8px;
   display: flex;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 80px;
+  height: 40px;
+  margin: auto 0;
+  background-color: #ccc;
+  border-radius: 20px;
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+}
+/* Add styles for checked state */
+.toggle-slider.checked {
+  transform: translateX(100%);
+}
+
+/* Add styles for left and right icons */
+.toggle-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.left-icon {
+  left: 0;
+}
+
+.right-icon {
+  right: 0;
 }
 
 /* Media queries for responsiveness */

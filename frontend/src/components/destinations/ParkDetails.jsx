@@ -11,6 +11,7 @@ export function ParkDetails(){
   const [data, setData] = useState(null);
   const [children, setChildren] = useState(null);
   const [schedule, setSchedule] = useState(null);
+  const [viewType, setViewType] = useState("Card");
 
   useEffect(() => {
 
@@ -65,7 +66,17 @@ export function ParkDetails(){
   }
 
   function renderChildrenObjects(){
-    if(!loading){
+    if(!loading && viewType==="Card"){
+      return(
+        <div className='destination-page'>
+          {children.attractions.map((child) => { 
+          return (
+            <Card child={child} openLink={openLink} />
+          )})}
+        </div>          
+      );
+    }
+    else if(!loading && viewType==="List"){
       return(
         <>
           <div className='destination-page'>
@@ -88,9 +99,9 @@ export function ParkDetails(){
   }
   return (
     <div>
-      <div style={{width: '100%', display: 'flex'}}>
-        <h1 style={{margin: '32px 0', textAlign: 'center', width: '100%'}}>{data.name}</h1>
-        {/* <span style={{margin: '32px 0', cursor: 'pointer'}} className="material-symbols-outlined">calendar_month</span> */}
+      <div style={{width: '85%', display: 'flex'}}>
+        <h1 style={{margin: '32px 0', textAlign: 'center', width: '80%'}}>{data.name}</h1>
+        <ToggleSwitch setViewType={setViewType} />  
       </div>
                
       {renderChildrenObjects()}
@@ -98,3 +109,25 @@ export function ParkDetails(){
     </div>
   );
 };
+
+function ToggleSwitch({setViewType}) {
+  const [isChecked, setIsChecked] = useState(false);
+
+  function handleToggle(){
+    setViewType(!isChecked ? "Card" : "List")
+    setIsChecked(!isChecked);
+  };
+
+  return (
+    <div className="toggle-switch">
+      <span className="toggle-icon left-icon" onClick={handleToggle}>
+        &#x2630; {/* Left icon */}
+      </span>
+      <div className={`toggle-slider ${isChecked ? 'checked' : ''}`}></div>
+      <span className="toggle-icon right-icon" onClick={handleToggle}>
+        &#x2609; {/* Right icon */}
+      </span>
+    </div>
+  );
+}
+
