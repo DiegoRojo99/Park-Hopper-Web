@@ -31,26 +31,26 @@ function DestinationDetails() {
     fetchData();
   }, [id]);
 
-  function handleSaveDestination() {
-    const { children, ...dataWithoutChildren } = data;
+  // function handleSaveDestination() {
+  //   const { children, ...dataWithoutChildren } = data;
 
-    fetch('http://localhost:8000/api/destinations', {
-      method: 'POST',
-      body: JSON.stringify(dataWithoutChildren),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to save destination');
-      }
-      // Handle success
-    })
-    .catch(error => {
-      // Handle error
-    });
-  };
+  //   fetch('http://localhost:8000/api/destinations', {
+  //     method: 'POST',
+  //     body: JSON.stringify(dataWithoutChildren),
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  //   .then(response => {
+  //     if (!response.ok) {
+  //       throw new Error('Failed to save destination');
+  //     }
+  //     // Handle success
+  //   })
+  //   .catch(error => {
+  //     // Handle error
+  //   });
+  // };
 
   if (loading) {
     return <p>Loading...</p>;

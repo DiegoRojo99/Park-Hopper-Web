@@ -65,6 +65,14 @@
   z-index: 2; 
 }
 
+.overlay-name{
+  width: 92.5%;;
+}
+
+.overlay-wait{
+  width: 2.5%;;
+}
+
 .overlay p, .overlay i{
   float: left;
   height: 24px;

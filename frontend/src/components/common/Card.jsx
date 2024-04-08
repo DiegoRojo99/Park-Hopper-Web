@@ -1,11 +1,9 @@
 
 function Card({ child, openLink }){
-  const rating = 4.32;
-  console.log("C: ", child)
   return (
     <div className='card' key={"card-"+child} >
       <div className='card2' onClick={() => openLink(child.id)}>
-        <img className="card-img" src="" />
+        <img className="card-img" src="" alt=""/>
         <div className="card-desc">
           <div className="card-row">
             <p className="card-name">{child.name}</p>
