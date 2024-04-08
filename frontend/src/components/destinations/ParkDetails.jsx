@@ -100,7 +100,7 @@ export function ParkDetails(){
   }
   return (
     <div>
-      <div style={{width: '85%', display: 'flex'}}>
+      <div style={{width: '80%', display: 'flex'}}>
         <h1 style={{margin: '32px 0', textAlign: 'center', width: '80%'}}>{data.name}</h1>
         <ToggleSwitch setViewType={setViewType} />  
       </div>
