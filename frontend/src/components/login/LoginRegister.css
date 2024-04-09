@@ -36,12 +36,12 @@ button:hover {
   background-color: #0056b3;
 }
 
-p {
+.login-register-container p {
   text-align: center;
   cursor: pointer;
   color: #007bff;
 }
 
-p:hover {
+.login-register-container p:hover {
   text-decoration: underline;
 }

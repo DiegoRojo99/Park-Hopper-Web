@@ -12,7 +12,8 @@ function Nav() {
         <li><a href="#"><span class="material-symbols-outlined">person</span><span>Account</span></a></li>
         <li><a href="#"><span class="material-symbols-outlined">report</span><span>Report</span></a></li>
         <li><a href="#"><span class="material-symbols-outlined">email</span><span>Contact</span></a></li>*/}
-        <li><a href="/login"><span class="material-symbols-outlined">login</span><span>Login</span></a></li> 
+        <li style={{flex: '16'}}></li>
+        <li style={{float: 'right'}}><a href="/login"><span class="material-symbols-outlined">login</span></a></li> 
       </ul>
     </div>
   );
