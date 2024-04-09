@@ -7,8 +7,23 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ParkDetails } from './components/destinations/ParkDetails';
 import { AttractionDetails } from './components/destinations/AttractionDetails';
 import { WaitingTimes } from './components/destinations/WaitingTimes';
+import LoginRegister from './components/login/LoginRegister';
+import { useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from './Firebase';
 
 function App() {
+  
+  useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // const uid = user.uid;
+      } else {
+        // console.log("user is logged out")
+      }
+    });
+  }, [])
+
   return (
     <BrowserRouter>
       <div id='main-container' className="App">
@@ -27,6 +42,8 @@ function App() {
             {/* <Route path="blogs" element={<Blogs />} />
             <Route path="contact" element={<Contact />} />
             <Route path="*" element={<NoPage />} /> */}
+            
+            <Route path="/login" element={<LoginRegister />} />
           </Routes>
         </div>
       </div>

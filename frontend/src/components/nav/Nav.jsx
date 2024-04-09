@@ -11,8 +11,8 @@ function Nav() {
         {/* <li><a href="#"><span class="material-symbols-outlined">analytics</span><span>Analytics</span></a></li>
         <li><a href="#"><span class="material-symbols-outlined">person</span><span>Account</span></a></li>
         <li><a href="#"><span class="material-symbols-outlined">report</span><span>Report</span></a></li>
-        <li><a href="#"><span class="material-symbols-outlined">email</span><span>Contact</span></a></li>
-        <li><a href="#"><span class="material-symbols-outlined">logout</span><span>Logout</span></a></li> */}
+        <li><a href="#"><span class="material-symbols-outlined">email</span><span>Contact</span></a></li>*/}
+        <li><a href="/login"><span class="material-symbols-outlined">login</span><span>Login</span></a></li> 
       </ul>
     </div>
   );
