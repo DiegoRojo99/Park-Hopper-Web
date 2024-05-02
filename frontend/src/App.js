@@ -31,7 +31,7 @@ function App() {
         <Nav />
         <div style={{width: '100%', height: '100%'}}>
           <Routes>
-            <Route path="/" exact element={<Home />} />
+            <Route path="/" exact element={<ExplorePage />} />
             <Route path="/explore" element={<ExplorePage />} />
             <Route path="/destinations" element={<Destinations />} />
             <Route path="/destinations/:id" element={<DestinationDetails />} />
