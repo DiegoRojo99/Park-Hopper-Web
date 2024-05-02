@@ -63,7 +63,7 @@ function ExplorePage(){
     });
     const countries = Object.keys(countryMap);
     countries.sort((a,b) => a.localeCompare(b));
-    const firstColumn = countries.splice(0, 13);
+    const firstColumn = countries.length > 10 ? countries.splice(0, 13) : countries.splice(0, Math.ceil(countries.length / 2));
     return (
       <div className='country-list-div'>
         <div className='half-column'>
