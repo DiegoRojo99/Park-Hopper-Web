@@ -39,7 +39,6 @@ export function AttractionDetails(){
 
   function renderChildrenObjects(){
     // const liveDataObj = data.liveData[0];
-    console.log("LD: ", data)
     return(
       <>
         {/* <h4>{new Date(liveDataObj.lastUpdated).toLocaleString()}</h4> */}

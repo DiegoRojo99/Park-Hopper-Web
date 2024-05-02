@@ -46,10 +46,8 @@ export function ParkDetails(){
           return acc;
         }, {});
         setSchedule(groupedByDate);
-        console.log("SCHEDULE: ", schedule)
         setLoading(false);
       } catch (error) {
-        console.log("Error: ", error)
         setError(error);
         setLoading(false);
       }
