@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Destinations.css';
-import SearchBar from '../common/SearchBar';
 import Card from '../common/Card';
 import TextField from '@mui/material/TextField';
 

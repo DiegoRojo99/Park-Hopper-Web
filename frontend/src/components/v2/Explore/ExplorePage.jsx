@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Explore.css';
-import SearchBar from '../../common/SearchBar';
-import Card from '../../common/Card';
 import TextField from '@mui/material/TextField';
 
 function ExplorePage(){
@@ -67,10 +65,10 @@ function ExplorePage(){
     return (
       <div className='country-list-div'>
         <div className='half-column'>
-          {firstColumn.map(c => <ParkGroup list={countryMap[c]} name={c} /> )}
+          {firstColumn.map(c => <ParkGroup list={countryMap[c]} name={c} openLink={openLink} /> )}
         </div>        
         <div className='half-column'>
-          {countries.map(c => <ParkGroup list={countryMap[c]} name={c} /> )}
+          {countries.map(c => <ParkGroup list={countryMap[c]} name={c} openLink={openLink} /> )}
         </div>
       </div>
     )
@@ -88,9 +86,6 @@ function ExplorePage(){
       <div>
         {renderCountryList()}
       </div>
-      {/* <div className='grid-all'>
-        { filteredData.map((park, index) => <Card key={"park-"+index} child={park} openLink={openLink} /> ) }
-      </div> */}
     </div>
   );
 };
@@ -114,14 +109,14 @@ function FilterBar({name, searchName}){
   )
 }
 
-function ParkGroup({list, name}){
+function ParkGroup({list, name, openLink}){
   list.sort((a,b) => a.ParkName.localeCompare(b.ParkName));
   return (
     <div className='group-list' key={name + "-group"}>
       <p className='group-name'>{name}</p>
       {list.map(park => 
       <div className='group-park'>
-        <p className='group-park-name'>
+        <p className='group-park-name' onClick={() => openLink(park.ParkID)}>
           {park.ParkName}
         </p>
         <div className='group-park-link'>

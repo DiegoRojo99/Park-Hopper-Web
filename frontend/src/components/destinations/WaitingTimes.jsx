@@ -19,7 +19,6 @@ export function WaitingTimes({ type }){
         }
 
         const result = await response.json();
-        // console.log(result)
         const objectType = result?.entityType?.toLowerCase();
         if (type && objectType && !type.includes(objectType)) {
           const newUrl = window.location.pathname.replace(`/${type}s/`, `/${objectType}s/`);
