@@ -69,32 +69,3 @@ export const addParkToDB = (park: ParkDB): Promise<void> => {
     });
   });
 };
-
-export const checkDestinationExistsInDB = (destinationID: string): Promise<boolean> => {
-  return new Promise((resolve, reject) => {
-    const sql = 'SELECT COUNT(*) AS count FROM Destinations WHERE DestinationID = ?';
-    db.query(sql, [destinationID], (err: any, result: any) => {
-      if (err) {
-        console.error('Error querying database:', err);
-        reject(err);
-      } else {
-        console.log('Query result:', result); // Log the result to see its structure
-        resolve(result[0].count > 0);
-      }
-    });
-  });
-};
-
-
-export const checkParkExistsInDB = (parkID: string): Promise<boolean> => {
-  return new Promise((resolve, reject) => {
-    const sql = 'SELECT COUNT(*) AS count FROM Parks WHERE ParkID = ?';
-    db.query(sql, [parkID], (err: any, result: any) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(result[0].count > 0);
-      }
-    });
-  });
-};
