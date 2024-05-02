@@ -52,6 +52,30 @@ function ExplorePage(){
     navigate(url); 
   }
 
+  function renderCountryList(){
+    const countryMap = {};
+    filteredData.forEach((row) => {
+      if(countryMap[row.Country]?.length){
+        countryMap[row.Country] = [...countryMap[row.Country], row];
+      }else{
+        countryMap[row.Country] = [row];
+      }
+    });
+    const countries = Object.keys(countryMap);
+    countries.sort((a,b) => a.localeCompare(b));
+    const firstColumn = countries.splice(0, 13);
+    return (
+      <div className='country-list-div'>
+        <div className='half-column'>
+          {firstColumn.map(c => <ParkGroup list={countryMap[c]} name={c} /> )}
+        </div>        
+        <div className='half-column'>
+          {countries.map(c => <ParkGroup list={countryMap[c]} name={c} /> )}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div style={{height: '100%'}}>
       <h1 style={{margin: '16px'}}>Parks:</h1>
@@ -60,11 +84,13 @@ function ExplorePage(){
         <p style={{margin: '0 8px'}}>List</p>
         <p>Map</p>
       </div>
-      <div className='grid-all'>
-      {filteredData.map((park, index) => (
-        <Card key={"park-"+index} child={park} openLink={openLink} /> 
-      ))}
+      
+      <div>
+        {renderCountryList()}
       </div>
+      {/* <div className='grid-all'>
+        { filteredData.map((park, index) => <Card key={"park-"+index} child={park} openLink={openLink} /> ) }
+      </div> */}
     </div>
   );
 };
@@ -84,6 +110,25 @@ function FilterBar({name, searchName}){
         sx={{ color: 'white' }}
       />
 
+    </div>
+  )
+}
+
+function ParkGroup({list, name}){
+  list.sort((a,b) => a.ParkName.localeCompare(b.ParkName));
+  return (
+    <div className='group-list' key={name + "-group"}>
+      <p className='group-name'>{name}</p>
+      {list.map(park => 
+      <div className='group-park'>
+        <p className='group-park-name'>
+          {park.ParkName}
+        </p>
+        <div className='group-park-link'>
+          
+        </div>
+      </div>
+      )}
     </div>
   )
 }
