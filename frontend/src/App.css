@@ -48,9 +48,9 @@ html{
 }
 
 body{
-  background: linear-gradient(#051f30,#000000);
-  background-size: cover;
-  color: white;
+  /* background: linear-gradient(#051f30,#000000);
+  background-size: cover; */
+  /* color: white; */
   min-height: 100%;
 }
 
