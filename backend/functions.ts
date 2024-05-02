@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import db from './db';
-import { DestinationDB, ParkDB } from './Types/Types';
+import { DestinationDB, Park, ParkDB, QueuePark } from './Types/Types';
 
 export const addDestination = (req: Request, res: Response) => {
   const { id, slug, name, destinationDescription, latitude, longitude } = req.body;
@@ -67,5 +67,47 @@ export const addParkToDB = (park: ParkDB): Promise<void> => {
         resolve();
       }
     });
+  });
+};
+
+export const addParkLocation = (park: QueuePark): Promise<void> => {
+  return new Promise((resolve, reject) => {
+    const { id, name, country, continent, latitude, longitude } = park;
+    const sql = `
+      UPDATE Parks 
+      SET 
+        Country = ?,
+        Continent = ?,
+        Latitude = CAST(? AS FLOAT),
+        Longitude = CAST(? AS FLOAT),
+        QueueTimesID = ?
+      WHERE 
+        ParkName = ?
+    `;
+    const values = [country, continent, latitude, longitude, id, name];
+
+    db.query(sql, values, (err: any, result: any) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+};
+
+export const getAllParks = (req: Request, res: Response) => {
+  const sql = `
+    SELECT *
+    FROM Parks
+  `;
+
+  db.query(sql, (err: any, results: any) => {
+    if (err) {
+      console.error('Error getting parks:', err);
+      return res.status(500).json({ error: 'Error getting parks' });
+    }
+
+    res.status(200).json(results);
   });
 };

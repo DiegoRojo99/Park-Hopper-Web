@@ -11,6 +11,7 @@ import LoginRegister from './components/login/LoginRegister';
 import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Firebase';
+import ExplorePage from './components/v2/Explore/ExplorePage';
 
 function App() {
   
@@ -31,6 +32,7 @@ function App() {
         <div style={{width: '100%', height: '100%'}}>
           <Routes>
             <Route path="/" exact element={<Home />} />
+            <Route path="/explore" element={<ExplorePage />} />
             <Route path="/destinations" element={<Destinations />} />
             <Route path="/destinations/:id" element={<DestinationDetails />} />
             <Route path="/destinations/:id/waiting" element={<WaitingTimes type={'destinations'} />} />

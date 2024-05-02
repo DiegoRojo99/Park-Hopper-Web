@@ -30,9 +30,26 @@ interface ParkDB {
   Longitude: number;
 }
 
+interface ParkGroup {
+  id: number;
+  name: string;
+  parks: QueuePark[];
+}
+
+interface QueuePark {
+  id: number;
+  name: string;
+  country: string;
+  continent: string;
+  latitude: string;
+  longitude: string;
+}
+
 export {
   Destination,
   DestinationDB,
   Park,
-  ParkDB
+  ParkDB,
+  ParkGroup,
+  QueuePark
 }
