@@ -51,25 +51,40 @@ a {
   padding: 10px;
 }
 
+.nav-logo{
+  padding: 0 24px;
+  color: black;
+  width: 256px;
+}
+
 .nav-menu{
   width: 100%;
   height: 60px;
-  background: #051f30;
+  display: flex;
+  flex-direction: row;
+  background: linear-gradient(to right,#fff, #ccc);
 }
 
 .nav-menu-content{
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  /* width: max-content; */
+  justify-content: flex-end;
+  width: 100%;
   height: 100%;
 }
 
 .nav-menu-content li{
-  flex: 1;
+  /* flex: 1; */
   list-style: none;
   padding: 8px;
   height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-menu-content li a{
+  color: black;
 }
 
 .material-symbols-outlined:hover {
