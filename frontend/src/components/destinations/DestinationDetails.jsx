@@ -44,7 +44,7 @@ function DestinationDetails() {
   // function handleSaveDestination() {
   //   const { children, ...dataWithoutChildren } = data;
 
-  //   fetch('http://localhost:8000/api/destinations', {
+  //   fetch('http://192.168.0.3:8000/api/destinations', {
   //     method: 'POST',
   //     body: JSON.stringify(dataWithoutChildren),
   //     headers: {

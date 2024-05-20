@@ -1,5 +1,4 @@
 import './App.css';
-import Home from './components/home/Home';
 import Nav from './components/nav/Nav';
 import Destinations from './components/destinations/Destinations';
 import DestinationDetails from './components/destinations/DestinationDetails';
@@ -12,6 +11,7 @@ import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Firebase';
 import ExplorePage from './components/v2/Explore/ExplorePage';
+import LandingPage from './components/pages/LandingPage';
 
 function App() {
   
@@ -31,7 +31,7 @@ function App() {
         <Nav />
         <div style={{width: '100%', height: '100%'}}>
           <Routes>
-            <Route path="/" exact element={<ExplorePage />} />
+            <Route path="/" exact element={<LandingPage />} />
             <Route path="/explore" element={<ExplorePage />} />
             <Route path="/destinations" element={<Destinations />} />
             <Route path="/destinations/:id" element={<DestinationDetails />} />

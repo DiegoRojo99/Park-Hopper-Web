@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Explore.css';
+import './Landing.css';
 import TextField from '@mui/material/TextField';
+import TabGroup from '../common/TabGroup';
+import genericThemePark from '../../img/Generic_Theme_Park.jpg'; 
 
-function ExplorePage(){
+function LandingPage(){
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [filteredData, setFilteredData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [name, setName] = useState(null);
+  const [activeTab, setActiveTab] = useState("Country");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +53,46 @@ function ExplorePage(){
     navigate(url); 
   }
 
+  function renderLandingContent(){
+    switch(activeTab){
+      case "Country":
+        return renderCountryList();
+      case "Group":
+        return renderGroupList();
+      default:
+        return <></>
+
+    }
+  }
+  
+  function renderGroupList(){
+    const groupMap = {};
+    filteredData.forEach((row) => {
+      if(groupMap[row.ParkName]?.length){
+        groupMap[row.ParkName] = [...groupMap[row.ParkName], row];
+      }else{
+        groupMap[row.ParkName] = [row];
+      }
+    });
+    const countries = Object.keys(groupMap);
+    countries.sort((a,b) => a.localeCompare(b));
+    const firstColumn = countries.splice(0, Math.ceil(countries.length / 3));
+    const secondColumn = countries.splice(0, Math.ceil(countries.length / 2));
+    return (
+      <div className='country-list-div'>
+        <div className='column'>
+          {firstColumn.map(c => <ParkGroup list={groupMap[c]} name={c} openLink={openLink} /> )}
+        </div>       
+        <div className='column'>
+          {secondColumn.map(c => <ParkGroup list={groupMap[c]} name={c} openLink={openLink} /> )}
+        </div>       
+        <div className='column'>
+          {countries.map(c => <ParkGroup list={groupMap[c]} name={c} openLink={openLink} /> )}
+        </div>   
+      </div>
+    )
+  }
+
   function renderCountryList(){
     const countryMap = {};
     filteredData.forEach((row) => {
@@ -66,7 +109,7 @@ function ExplorePage(){
       <div className='country-list-div'>
         <div className='column'>
           {firstColumn.map(c => <ParkGroup list={countryMap[c]} name={c} openLink={openLink} /> )}
-        </div>        
+        </div>       
         <div className='column'>
           {countries.map(c => <ParkGroup list={countryMap[c]} name={c} openLink={openLink} /> )}
         </div>
@@ -74,35 +117,36 @@ function ExplorePage(){
     )
   }
 
+  function changeTab(newTab){
+    setActiveTab(newTab);
+  }
+
   return (
     <div style={{height: '100%'}}>
-      <h1 style={{margin: '16px'}}>Parks:</h1>
+      <div className='landing-big-img' alt="Generic Theme Park" />
       <FilterBar name={name} searchName={searchName} />
-      <div style={{display: 'flex', width: '20%'}}>
-        <p style={{margin: '0 8px'}}>List</p>
-        <p>Map</p>
+      <div className='landing-main'>
+        <TabGroup tabs={["Country", "Map"]} activeTab={activeTab} changeTab={changeTab} />
+        {renderLandingContent()}
       </div>
       
       <div>
-        {renderCountryList()}
       </div>
     </div>
   );
 };
 
 function FilterBar({name, searchName}){
-
   return (
     <div className='filter-bar'>
       <TextField 
         id="outlined-basic" 
         label="Name" 
-        // variant="outlined" 
-        // color=''
+        placeholder='Search a theme park...'
         value={name}
         onChange={(event) => { searchName(event.target.value)}}
         focused
-        sx={{ color: 'white' }}
+        sx={{ color: 'white', width: '100%' }}
       />
 
     </div>
@@ -128,4 +172,4 @@ function ParkGroup({list, name, openLink}){
   )
 }
 
-export default ExplorePage;
+export default LandingPage;

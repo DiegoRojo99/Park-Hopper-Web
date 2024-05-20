@@ -26,7 +26,7 @@ const LoginRegister = () => {
       .then(async (userCredential) => {
         const user = userCredential.user;
         // Call backend API to add user to the database
-        const response = await fetch('http://localhost:5000/api/users', {
+        const response = await fetch('http://192.168.0.3:5000/api/users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

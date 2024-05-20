@@ -78,3 +78,32 @@
   height: 24px;
   margin: 12px 0;
 }
+.tab-group{
+  display: flex;
+  flex-direction: row;
+  margin-left: 8px;
+  background-color: #ddd;
+  width: fit-content;
+  height: 52px;
+  border-radius: 4px;
+}
+.tab-element{
+  width: fit-content;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  height: 40px;
+  margin: 6px;
+}
+.active-tab-element{
+  width: fit-content;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  height: 40px;
+  margin: 6px;
+  background-color: #fff;
+}
+.tab-element:hover{
+  background-color: #fff;
+}
