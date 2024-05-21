@@ -3,7 +3,6 @@ import Nav from './components/nav/Nav';
 import Destinations from './components/destinations/Destinations';
 import DestinationDetails from './components/destinations/DestinationDetails';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ParkDetails } from './components/destinations/ParkDetails';
 import { AttractionDetails } from './components/destinations/AttractionDetails';
 import { WaitingTimes } from './components/destinations/WaitingTimes';
 import LoginRegister from './components/login/LoginRegister';
@@ -12,6 +11,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Firebase';
 import ExplorePage from './components/v2/Explore/ExplorePage';
 import LandingPage from './components/pages/LandingPage';
+import { ParkPage } from './components/pages/ParkPage';
 
 function App() {
   
@@ -36,7 +36,7 @@ function App() {
             <Route path="/destinations" element={<Destinations />} />
             <Route path="/destinations/:id" element={<DestinationDetails />} />
             <Route path="/destinations/:id/waiting" element={<WaitingTimes type={'destinations'} />} />
-            <Route path="/parks/:id" element={<ParkDetails />} />            
+            <Route path="/parks/:id" element={<ParkPage />} />            
             <Route path="/parks/:id/waiting" element={<WaitingTimes type={'park'} />} />
             <Route path="/attractions/:id" element={<AttractionDetails />} />
             {/* <Route path="/destinations/:id" element={<DestinationCalendar />} /> */}

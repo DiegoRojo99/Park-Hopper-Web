@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Landing.css';
+import './Pages.css';
 import TextField from '@mui/material/TextField';
 import TabGroup from '../common/TabGroup';
-import genericThemePark from '../../img/Generic_Theme_Park.jpg'; 
 
 function LandingPage(){
   const navigate = useNavigate();

@@ -48,11 +48,10 @@
 .landing-big-img{
   width: 100%;
   height: 320px;
-  background-image: url('../../img/theme-park-banner.jpg'); /* Adjust path accordingly */
-  background-size: cover; /* Ensures the image covers the container */
-  background-position: center; /* Center the image */
-  background-repeat: no-repeat; /* Prevent the image from repeating */
-
+  background-image: url('../../img/theme-park-banner.jpg');
+  background-size: cover; 
+  background-position: center;
+  background-repeat: no-repeat; 
 }
 
 .filter-bar{
