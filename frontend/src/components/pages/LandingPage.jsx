@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Pages.css';
-import TextField from '@mui/material/TextField';
 import TabGroup from '../common/TabGroup';
+import FilterBar from '../common/FilterBar';
 
 function LandingPage(){
   const navigate = useNavigate();
@@ -123,7 +123,7 @@ function LandingPage(){
   return (
     <div style={{height: '100%'}}>
       <div className='landing-big-img' alt="Generic Theme Park" />
-      <FilterBar name={name} searchName={searchName} />
+      <FilterBar name={name} searchName={searchName} placeholder={'Search a theme park...'} />
       <div className='landing-main'>
         <TabGroup tabs={["Country", "Map"]} activeTab={activeTab} changeTab={changeTab} />
         {renderLandingContent()}
@@ -134,23 +134,6 @@ function LandingPage(){
     </div>
   );
 };
-
-function FilterBar({name, searchName}){
-  return (
-    <div className='filter-bar'>
-      <TextField 
-        id="outlined-basic" 
-        label="Name" 
-        placeholder='Search a theme park...'
-        value={name}
-        onChange={(event) => { searchName(event.target.value)}}
-        focused
-        sx={{ color: 'white', width: '100%' }}
-      />
-
-    </div>
-  )
-}
 
 function ParkGroup({list, name, openLink}){
   list.sort((a,b) => a.ParkName.localeCompare(b.ParkName));

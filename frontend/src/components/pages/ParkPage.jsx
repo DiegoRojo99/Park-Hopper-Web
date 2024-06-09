@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Card from '../common/Card';
 import WideCard from '../common/WideCard';
 import TabGroup from '../common/TabGroup';
+import FilterBar from '../common/FilterBar';
 
 export function ParkPage(){
   const { id } = useParams();
@@ -12,6 +13,8 @@ export function ParkPage(){
   const [data, setData] = useState(null);
   const [children, setChildren] = useState(null);
   const [schedule, setSchedule] = useState(null);
+  const [name, setName] = useState(null);
+  const [filteredData, setFilteredData] = useState([]);
   const [viewType, setViewType] = useState("Card");
   const [activeTab, setActiveTab] = useState("Attractions");
   const [tabs, setTabs] = useState(["Attractions", "Shows", "Restaurants", "Hotels"]);
@@ -67,13 +70,19 @@ export function ParkPage(){
     return <p>Error: {error.message}</p>;
   }
   
+  function searchName(text){
+    setName(text);
+    const filteredNames = children[activeTab.toLowerCase()].filter((c) => c.name?.toLowerCase().includes(text.toLowerCase()));
+    setFilteredData(filteredNames);
+  }
+  
   function openLink(id) {
     const url = `/attractions/${id}`;
     navigate(url); 
   }
 
   function renderChildrenObjects(){
-    let selectedChildren = children[activeTab.toLowerCase()];
+    let selectedChildren = filteredData?.length || name?.length ? filteredData : children[activeTab.toLowerCase()];
     if(!loading && viewType==="Card"){
       return(
         <div className='grid-element'>
@@ -119,7 +128,7 @@ export function ParkPage(){
         <div style={{flex: '4'}}></div>
         <ToggleSwitch setViewType={setViewType} />  
       </div>
-               
+      <FilterBar name={name} searchName={searchName} />
       {renderChildrenObjects()}
 
     </div>
