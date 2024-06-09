@@ -28,6 +28,9 @@ interface ParkDB {
   ParkDescription?: string;
   Latitude: number;
   Longitude: number;
+  Country?: string;
+  Continent?: string;
+  QueueTimesID?: number;
 }
 
 interface ParkGroup {

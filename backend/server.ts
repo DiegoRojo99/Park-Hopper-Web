@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors'; // Import cors middleware
 import { addDestination, getAllParks } from './functions';
 import {syncDestinationsWithDB, syncParksWithQueueTimesDB} from './Activities/Sync';
+import {processParks} from './Activities/loadAttractionsAndZones';
 
 const app = express();
 const PORT = 8000;
@@ -18,6 +19,7 @@ app.listen(PORT, () => {
 
 app.get('/api/allParks', getAllParks);
 
+app.get('/api/syncAttractions', processParks);
 app.get('/api/syncDestinations', async (req, res) => {
   try {
     const apiUrl = 'https://api.themeparks.wiki/v1/destinations';
@@ -33,7 +35,6 @@ app.get('/api/syncDestinations', async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
-
 app.get('/api/syncParks', async (req, res) => {
   try {
     const apiUrl = 'https://queue-times.com/parks.json';

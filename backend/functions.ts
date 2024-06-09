@@ -111,3 +111,21 @@ export const getAllParks = (req: Request, res: Response) => {
     res.status(200).json(results);
   });
 };
+
+export const pullParks = (): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    const sql = `
+      SELECT *
+      FROM Parks
+    `;
+
+    db.query(sql, (err: any, results: any) => {
+      if (err) {
+        console.error('Error getting parks:', err);
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
