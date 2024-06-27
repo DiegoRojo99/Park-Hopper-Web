@@ -48,11 +48,22 @@ interface QueuePark {
   longitude: string;
 }
 
+interface AttractionDB {
+  AttractionID: string,
+  DestinationID: string,
+  ParkID: string,
+  AttractionName: string,
+  Slug: string,
+  QueueTimesID: number,
+  ZoneID: number | null
+}
+
 export {
   Destination,
   DestinationDB,
   Park,
   ParkDB,
   ParkGroup,
-  QueuePark
+  QueuePark,
+  AttractionDB
 }

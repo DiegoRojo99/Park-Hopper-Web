@@ -1,6 +1,7 @@
 import { ParkDB } from '../Types/Types';
 import { getAllParks, pullParks } from '../functions'; // Import the function to fetch parks
 import { Request, Response } from 'express';
+import {insertAttraction} from './../DB/Attractions';
 
 // Function to fetch data from the first API (Queue Times API)
 async function fetchQueueTimesData(parkId: number) {
@@ -11,34 +12,56 @@ async function fetchQueueTimesData(parkId: number) {
 
 // Function to fetch data from the second API (pi.themeparks.wiki)
 async function fetchThemeParksData(parkId: string) {
-  const url = `https://api.themeparks.wiki/v1/entity/${parkId}/children`; 
+  const url = `https://api.themeparks.wiki/v1/entity/${parkId}/children`;
   const response = await fetch(url);
   return response.json();
 }
 
-// Function to insert data into attractions and zones tables
 async function insertAttractionsAndZonesData(park: ParkDB) {
   if(park.QueueTimesID && park.ParkID)
     try {
-        const queueTimesData = await fetchQueueTimesData(park.QueueTimesID);
-        const themeParksData = await fetchThemeParksData(park.ParkID);
-        // console.log("QueueTimes: ", queueTimesData.lands[0].rides[0])
-        // console.log("ThemeParks: ", themeParksData.children[0])
-        let queueTimesAttractions: any[] = [];
-        queueTimesData.lands.forEach((land: { rides: any; }) => queueTimesAttractions = [...queueTimesAttractions, ...land.rides]);
-        queueTimesAttractions = [...queueTimesAttractions, ...queueTimesData.rides]
-        const themeParksAttractions = themeParksData.children.filter((child: { entityType: string; }) => child.entityType==="ATTRACTION");
+      const queueTimesData = await fetchQueueTimesData(park.QueueTimesID);
+      const themeParksData = await fetchThemeParksData(park.ParkID);
 
-        // Call the function to synchronize attractions data
-        const {synchronizedAttractions, unsyncedAttractions} = synchronizeAttractions(queueTimesAttractions, themeParksAttractions, park);
-        // Log synchronized attractions
-        console.log('Synchronized attractions:', synchronizedAttractions.length);
-        console.log('Un Synced attractions:', unsyncedAttractions.length);
+      let queueTimesAttractions: any[] = [];
+      queueTimesData.lands.forEach((land: { rides: any; }) => queueTimesAttractions = [...queueTimesAttractions, ...land.rides]);
+      queueTimesAttractions = [...queueTimesAttractions, ...queueTimesData.rides]
+      const themeParksAttractions: any[] = themeParksData.children.filter((child: { entityType: string; }) => child.entityType === "ATTRACTION");
 
+      let {synchronizedAttractions, unsyncedAttractions} = synchronizeAttractions(queueTimesAttractions, themeParksAttractions, park);
+      const exceptionWords = [
+        " talk ","express", "meet", "restaurant", "musical", "virtualline", "station",
+        " cafe ", " live", "aire de jeux", "playarea", "play area", "theatre", 
+        "tour", "pool", "festival", "hotel", " show", "cinema", "playground",
+        "dance", "flash mob", " band", " animals", "(ww)", "bus stop", "parade", 
+      ];
+      let unmatchedAttractions = themeParksAttractions.filter(att => !synchronizedAttractions.find(sa => sa.AttractionID === att.id ));
 
-        console.log(`Data inserted for ${park.ParkName}`);
+      unsyncedAttractions = unsyncedAttractions.filter(attraction => {
+        return !exceptionWords.some(word => attraction.name.toLowerCase().includes(word));
+      });
+      unmatchedAttractions = unmatchedAttractions.filter(attraction => {
+        return !exceptionWords.some(word => attraction.name.toLowerCase().includes(word));
+      });
+
+      if(unsyncedAttractions.length < 3 || unmatchedAttractions.length < 3 || (unsyncedAttractions.length < 5 && unmatchedAttractions.length < 5)){
+        synchronizedAttractions.forEach(async element => {
+          await insertAttraction(element);
+        });
+      }
+      else if(unsyncedAttractions.length < 6  || unmatchedAttractions.length < 6){
+        console.log(park.ParkName, "Less than 6");
+      }
+      else if(unsyncedAttractions.length < 10  && unmatchedAttractions.length < 10){
+        console.log(park.ParkName, "Less than 10 both ways");
+      }
+      else{
+        console.log("ELSE: ");
+        console.log(park.ParkName, "is missing: ", unsyncedAttractions.map(a => a.name))
+        console.log(park.ParkName, "is NOT matching: ", unmatchedAttractions.map(a => a.name))
+      }
     } catch (error) {
-        console.error(`Error inserting data for ${park.ParkName}:`, error);
+      console.error(`Error inserting data for ${park.ParkName}:`, error);
     }
 }
 
@@ -48,33 +71,60 @@ function synchronizeAttractions(queueTimesAttractions: any[], themeParksAttracti
   const unsyncedAttractions = [];
 
   for (const queueTimesAttraction of queueTimesAttractions) {
-    const matchingThemeParkAttraction = themeParksAttractions.find(themeParksAttraction =>
-      queueTimesAttraction.name === themeParksAttraction.name
+    let matchingThemeParkAttraction = themeParksAttractions.find(
+      themeParksAttraction => 
+      queueTimesAttraction.name.toLowerCase() === themeParksAttraction.name.toLowerCase() ||
+      queueTimesAttraction.name.toLowerCase().replace(/\s/g, '').trim() === themeParksAttraction.name.toLowerCase().replace(/\s/g, '').trim() ||
+        queueTimesAttraction.name.toLowerCase().replace("carousel","carrousel").trim() === themeParksAttraction.name.toLowerCase().replace("carousel","carrousel").trim() ||
+        queueTimesAttraction.name.toLowerCase().replace("ö","o").trim() === themeParksAttraction.name.toLowerCase().replace("ö","o").trim() ||
+        queueTimesAttraction.name.toLowerCase().replace("awound","around").trim() === themeParksAttraction.name.toLowerCase().replace("awound","around").trim() ||
+      queueTimesAttraction.name.toLowerCase().replace("'s","").trim() === themeParksAttraction.name.toLowerCase().replace("'s","").trim() ||
+      queueTimesAttraction.name.toLowerCase().replace("’s","").trim() === themeParksAttraction.name.toLowerCase().replace("’s","").trim() ||
+      queueTimesAttraction.name.toLowerCase().replace("’","'").replace("™","").trim() === themeParksAttraction.name.toLowerCase().replace("’","'").replace("™","").trim() ||
+      queueTimesAttraction.name.toLowerCase().replace("'","").trim() === themeParksAttraction.name.toLowerCase().replace("'","").trim() ||
+      queueTimesAttraction.name.toLowerCase().replace("'"," ").trim() === themeParksAttraction.name.toLowerCase().replace("'"," ").trim() ||
+        queueTimesAttraction.name.toLowerCase().replace("*","").trim() === themeParksAttraction.name.toLowerCase().replace("*","").trim() ||
+        queueTimesAttraction.name.toLowerCase().replace("™"," ").trim() === themeParksAttraction.name.toLowerCase().replace("™"," ").trim() ||
+        queueTimesAttraction.name.toLowerCase().replace("™",":").trim() === themeParksAttraction.name.toLowerCase().replace("™",":").trim() ||
+        queueTimesAttraction.name.toLowerCase().replace("™:", "").trim() === themeParksAttraction.name.toLowerCase().replace("™:", "").trim() ||
+      queueTimesAttraction.name.toLowerCase().replace("-"," ").replace("™","").trim() === themeParksAttraction.name.toLowerCase().replace("™","").replace("-"," ").trim()
+        
     );
+    if(!matchingThemeParkAttraction){
+      matchingThemeParkAttraction = themeParksAttractions.find(
+        themeParksAttraction =>
+          queueTimesAttraction.name === themeParksAttraction.id ||
+          queueTimesAttraction.name === themeParksAttraction.externalId
+      );
+    }
+    if(!matchingThemeParkAttraction){
+      matchingThemeParkAttraction = themeParksAttractions.find(
+        themeParksAttraction =>
+          queueTimesAttraction.name.toLowerCase().includes(themeParksAttraction.name.toLowerCase()) ||
+          themeParksAttraction.name.toLowerCase().includes(queueTimesAttraction.name.toLowerCase()) ||
+          themeParksAttraction.name.toLowerCase().includes(queueTimesAttraction.name.toLowerCase()) ||
+          (themeParksAttraction.name.toLowerCase().includes("carnival of chaos") && queueTimesAttraction.name.toLowerCase().includes("carnival of chaos")) ||
+          queueTimesAttraction.name.replace(/\s/g, '').toLowerCase().includes(themeParksAttraction.name.replace(/\s/g, '').toLowerCase()) ||
+          themeParksAttraction.name.replace(/\s/g, '').toLowerCase().includes(queueTimesAttraction.name.replace(/\s/g, '').toLowerCase())          
+      );
+    }
 
     if (matchingThemeParkAttraction) {
-      // Create a synchronized attraction object
       const synchronizedAttraction = {
         AttractionID: matchingThemeParkAttraction.id,
         DestinationID: park.DestinationID,
         ParkID: park.ParkID,
-        AttractionName: queueTimesAttraction.name,
+        AttractionName: matchingThemeParkAttraction.name,
         Slug: matchingThemeParkAttraction.slug,
-        AttractionDescription: '', // Attraction description
+        AttractionDescription: '',
         QueueTimesID: queueTimesAttraction.id,
-        ZoneID: null // Zone ID (to be filled later)
+        ZoneID: null
       };
-      // console.log("Q: ", queueTimesAttraction)
-      // console.log("T: ", matchingThemeParkAttraction)
-      // console.log("M: ", synchronizedAttraction)
-      // console.log("P: ", park)
-
       synchronizedAttractions.push(synchronizedAttraction);
-    } 
+    }
     else {
-      // Log attractions that are not matching
       unsyncedAttractions.push(queueTimesAttraction);
-      console.log(`Attraction "${queueTimesAttraction.name}" not found in theme parks data.`);
+      // console.log(`Attraction "${queueTimesAttraction.name}" not found in theme parks data.`);
     }
   }
 

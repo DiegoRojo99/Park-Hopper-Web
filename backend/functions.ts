@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import db from './db';
+import db from './DB/db';
 import { DestinationDB, Park, ParkDB, QueuePark } from './Types/Types';
 
 export const addDestination = (req: Request, res: Response) => {
