@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/park-hopper-web/static/css/main.a1d1ac4f.css",
-    "main.js": "/park-hopper-web/static/js/main.ccdcf6a4.js",
-    "static/js/787.9e9f4ffd.chunk.js": "/park-hopper-web/static/js/787.9e9f4ffd.chunk.js",
-    "static/media/theme-park-banner.jpg": "/park-hopper-web/static/media/theme-park-banner.7282f4c25c2d00c9bcf0.jpg",
-    "index.html": "/park-hopper-web/index.html",
-    "main.a1d1ac4f.css.map": "/park-hopper-web/static/css/main.a1d1ac4f.css.map",
-    "main.ccdcf6a4.js.map": "/park-hopper-web/static/js/main.ccdcf6a4.js.map",
-    "787.9e9f4ffd.chunk.js.map": "/park-hopper-web/static/js/787.9e9f4ffd.chunk.js.map"
+    "main.css": "/Park-Hopper-Web/static/css/main.18f00d75.css",
+    "main.js": "/Park-Hopper-Web/static/js/main.802154a5.js",
+    "static/js/787.9e9f4ffd.chunk.js": "/Park-Hopper-Web/static/js/787.9e9f4ffd.chunk.js",
+    "static/media/theme-park-banner.jpg": "/Park-Hopper-Web/static/media/theme-park-banner.7282f4c25c2d00c9bcf0.jpg",
+    "index.html": "/Park-Hopper-Web/index.html",
+    "main.18f00d75.css.map": "/Park-Hopper-Web/static/css/main.18f00d75.css.map",
+    "main.802154a5.js.map": "/Park-Hopper-Web/static/js/main.802154a5.js.map",
+    "787.9e9f4ffd.chunk.js.map": "/Park-Hopper-Web/static/js/787.9e9f4ffd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.a1d1ac4f.css",
-    "static/js/main.ccdcf6a4.js"
+    "static/css/main.18f00d75.css",
+    "static/js/main.802154a5.js"
   ]
 }
