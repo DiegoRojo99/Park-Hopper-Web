@@ -10,8 +10,8 @@ import { useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from './Firebase';
 import ExplorePage from './components/v2/Explore/ExplorePage';
-import LandingPage from './components/pages/LandingPage';
 import { ParkPage } from './components/pages/ParkPage';
+import Home from './components/home/Home';
 
 function App() {
   
@@ -31,7 +31,7 @@ function App() {
         <Nav />
         <div style={{width: '100%', height: '100%'}}>
           <Routes>
-            <Route path="/" exact element={<LandingPage />} />
+            <Route path="/" exact element={<Home />} />
             <Route path="/explore" element={<ExplorePage />} />
             <Route path="/destinations" element={<Destinations />} />
             <Route path="/destinations/:id" element={<DestinationDetails />} />
