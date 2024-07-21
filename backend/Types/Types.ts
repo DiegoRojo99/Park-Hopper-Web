@@ -58,6 +58,12 @@ interface AttractionDB {
   ZoneID: number | null
 }
 
+interface ZoneDB {
+  ZoneID: number,
+  ParkID: string,
+  ZoneName: string,
+}
+
 export {
   Destination,
   DestinationDB,
@@ -65,5 +71,6 @@ export {
   ParkDB,
   ParkGroup,
   QueuePark,
-  AttractionDB
+  AttractionDB,
+  ZoneDB
 }

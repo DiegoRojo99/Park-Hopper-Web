@@ -2,6 +2,7 @@ import { ParkDB } from '../Types/Types';
 import { getAllParks, pullParks } from '../functions'; // Import the function to fetch parks
 import { Request, Response } from 'express';
 import {insertAttraction} from './../DB/Attractions';
+import {insertZone} from './../DB/Zones';
 
 // Function to fetch data from the first API (Queue Times API)
 async function fetchQueueTimesData(parkId: number) {
@@ -24,10 +25,14 @@ async function insertAttractionsAndZonesData(park: ParkDB) {
       const themeParksData = await fetchThemeParksData(park.ParkID);
 
       let queueTimesAttractions: any[] = [];
-      queueTimesData.lands.forEach((land: { rides: any; }) => queueTimesAttractions = [...queueTimesAttractions, ...land.rides]);
-      queueTimesAttractions = [...queueTimesAttractions, ...queueTimesData.rides]
       const themeParksAttractions: any[] = themeParksData.children.filter((child: { entityType: string; }) => child.entityType === "ATTRACTION");
 
+      const zones = queueTimesData.lands;
+      synchronizeZones(zones, park, themeParksAttractions);
+
+      queueTimesData.lands.forEach((land: { rides: any; }) => queueTimesAttractions = [...queueTimesAttractions, ...land.rides]);
+      queueTimesAttractions = [...queueTimesAttractions, ...queueTimesData.rides]
+      
       let {synchronizedAttractions, unsyncedAttractions} = synchronizeAttractions(queueTimesAttractions, themeParksAttractions, park);
       const exceptionWords = [
         " talk ","express", "meet", "restaurant", "musical", "virtualline", "station",
@@ -51,18 +56,42 @@ async function insertAttractionsAndZonesData(park: ParkDB) {
       }
       else if(unsyncedAttractions.length < 6  || unmatchedAttractions.length < 6){
         console.log(park.ParkName, "Less than 6");
+        synchronizedAttractions.forEach(async element => {
+          await insertAttraction(element);
+        });
       }
-      else if(unsyncedAttractions.length < 10  && unmatchedAttractions.length < 10){
-        console.log(park.ParkName, "Less than 10 both ways");
-      }
-      else{
-        console.log("ELSE: ");
-        console.log(park.ParkName, "is missing: ", unsyncedAttractions.map(a => a.name))
-        console.log(park.ParkName, "is NOT matching: ", unmatchedAttractions.map(a => a.name))
-      }
+      // else if(unsyncedAttractions.length < 10  && unmatchedAttractions.length < 10){
+      //   console.log(park.ParkName, "Less than 10 both ways");
+      // }
+      // else{
+      //   console.log("ELSE: ");
+      //   console.log(park.ParkName, "is missing: ", unsyncedAttractions.map(a => a.name))
+      //   console.log(park.ParkName, "is NOT matching: ", unmatchedAttractions.map(a => a.name))
+      // }
     } catch (error) {
       console.error(`Error inserting data for ${park.ParkName}:`, error);
     }
+}
+
+
+// Function to synchronize zones data
+function synchronizeZones(zones: any[], park: ParkDB, themeParksAttractions: any[]) {
+  zones.forEach(async zone => {
+    const formattedZone = {
+      ParkID: park.ParkID,
+      ZoneName: zone.name
+    }
+    let ZoneID = await insertZone(formattedZone);
+    const rides = zone.rides.map((r: any) => {
+      let rideWithZone = {...r};
+      rideWithZone.ZoneID = ZoneID;
+      return rideWithZone;
+    })
+    let {synchronizedAttractions, unsyncedAttractions} = synchronizeAttractions(rides, themeParksAttractions, park)
+    synchronizedAttractions.forEach(async element => {
+      await insertAttraction(element);
+    });
+  })
 }
 
 // Function to synchronize attractions data
@@ -118,7 +147,7 @@ function synchronizeAttractions(queueTimesAttractions: any[], themeParksAttracti
         Slug: matchingThemeParkAttraction.slug,
         AttractionDescription: '',
         QueueTimesID: queueTimesAttraction.id,
-        ZoneID: null
+        ZoneID: queueTimesAttraction.ZoneID ?? null
       };
       synchronizedAttractions.push(synchronizedAttraction);
     }
