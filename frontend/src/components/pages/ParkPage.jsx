@@ -4,6 +4,7 @@ import Card from '../common/Card';
 import WideCard from '../common/WideCard';
 import TabGroup from '../common/TabGroup';
 import FilterBar from '../common/FilterBar';
+import { WaitingTimes } from '../pageDetails/WaitingTimes';
 
 export function ParkPage(){
   const { id } = useParams();
@@ -97,10 +98,7 @@ export function ParkPage(){
       return(
         <>
           <div className='grid-element'>
-            {selectedChildren.map((child) => { 
-            return (
-              <WideCard child={child} openLink={openLink} />
-            )})}
+            <WaitingTimes attractions={children.attractions} />
           </div>
         </>
       );
