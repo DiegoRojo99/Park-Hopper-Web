@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/Park-Hopper-Web/static/css/main.18f00d75.css",
-    "main.js": "/Park-Hopper-Web/static/js/main.802154a5.js",
-    "static/js/787.9e9f4ffd.chunk.js": "/Park-Hopper-Web/static/js/787.9e9f4ffd.chunk.js",
-    "static/media/theme-park-banner.jpg": "/Park-Hopper-Web/static/media/theme-park-banner.7282f4c25c2d00c9bcf0.jpg",
-    "index.html": "/Park-Hopper-Web/index.html",
-    "main.18f00d75.css.map": "/Park-Hopper-Web/static/css/main.18f00d75.css.map",
-    "main.802154a5.js.map": "/Park-Hopper-Web/static/js/main.802154a5.js.map",
-    "787.9e9f4ffd.chunk.js.map": "/Park-Hopper-Web/static/js/787.9e9f4ffd.chunk.js.map"
+    "main.css": "/static/css/main.2a5c217b.css",
+    "main.js": "/static/js/main.1e0dda49.js",
+    "static/js/787.9e9f4ffd.chunk.js": "/static/js/787.9e9f4ffd.chunk.js",
+    "static/media/theme-park-banner.jpg": "/static/media/theme-park-banner.7282f4c25c2d00c9bcf0.jpg",
+    "index.html": "/index.html",
+    "main.2a5c217b.css.map": "/static/css/main.2a5c217b.css.map",
+    "main.1e0dda49.js.map": "/static/js/main.1e0dda49.js.map",
+    "787.9e9f4ffd.chunk.js.map": "/static/js/787.9e9f4ffd.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.18f00d75.css",
-    "static/js/main.802154a5.js"
+    "static/css/main.2a5c217b.css",
+    "static/js/main.1e0dda49.js"
   ]
 }
